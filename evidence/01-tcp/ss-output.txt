@@ -1,0 +1,14 @@
+# Begge sider i live (sleep i både server og klient)
+$ sudo ss -tnp | grep 9000
+ESTAB 0      0           127.0.0.1:9000      127.0.0.1:43562 users:(("python3",pid=3988,fd=4))
+ESTAB 0      0           127.0.0.1:43562     127.0.0.1:9000  users:(("python3",pid=3994,fd=3))
+
+# Klienten er færdig, serveren sover stadig
+$ sudo ss -tnp | grep 9000
+FIN-WAIT-2 0      0           127.0.0.1:33768     127.0.0.1:9000
+CLOSE-WAIT 1      0           127.0.0.1:9000      127.0.0.1:33768 users:(("python3",pid=3885,fd=4))
+
+# Efter begge er færdige
+$ ss -tn state time-wait
+Recv-Q         Send-Q                 Local Address:Port                    Peer Address:Port
+0              0                          127.0.0.1:58444                      127.0.0.1:9000

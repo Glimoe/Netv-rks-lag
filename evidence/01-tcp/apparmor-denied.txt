@@ -1,0 +1,8 @@
+$ tshark -r test2.pcap
+tshark: You don't have permission to read the file "test2.pcap".
+
+$ cat test2.pcap > /dev/null ; echo $?
+0
+
+$ dmesg | grep -i -E "apparmor|denied" | tail -5
+[ 4353.511109] audit: type=1400 audit(1790584001.285:208): apparmor="DENIED" operation="open" class="file" profile="tshark" name="/home/admin/netvaerk/test2.pcap" pid=3784 comm="tshark" requested_mask="r" denied_mask="r" fsuid=1001 ouid=1001
