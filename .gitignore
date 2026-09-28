@@ -180,5 +180,5 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-   key.pem
-   *.key
+key.pem
+*.key

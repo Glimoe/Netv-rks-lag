@@ -41,11 +41,11 @@ Miljø: Ubuntu Server (`ubuntuserver`), Python 3.14, loopback `127.0.0.1`. Alle 
 
 ## Sikkerhedsmæssig begrundelse
 
-> **TODO – skrives med egne ord (2-4 sætninger).**
-> Spørgsmål at skrive ud fra:
-> 1. Hvorfor bindes serveren til `127.0.0.1` og ikke `0.0.0.0`?
-> 2. Hvorfor er det en fordel for sikkerheden, at `tshark` er begrænset af en AppArmor-profil?
-> 3. Hvorfor er det nyttigt at kende en normal handshake, når man skal genkende en SYN-flood?
+Serveren bindes til `127.0.0.1` og ikke `0.0.0.0`, som lytter på alle interfaces. Så kan kun processer i VM'en nå den, og angrebsfladen er mindst mulig.
+
+`tshark` er begrænset af en AppArmor-profil, som kernen håndhæver uanset bruger, også root. Da `tshark` læser rå trafik fra ukendte kilder, kan en ondsindet pakke udnytte en fejl i programmet. Profilen begrænser så skaden til de filer, `tshark` har brug for (least privilege, defense in depth).
+
+I en SYN-flood kommer den sidste ACK aldrig. Serveren holder de halvåbne forbindelser (`SYN-RECV`), indtil køen er fuld og rigtige klienter afvises. Kender man en normal handshake, kan man genkende mønstret: mange SYN uden ACK.
 
 ## Dokumentation / bevis
 
